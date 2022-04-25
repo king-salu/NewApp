@@ -16,6 +16,7 @@ const dotenv = require('dotenv');
 dotenv.config({path:'./config.env'});
 
 const libraryRouter = require('./routes/libraryroutes');
+const searchRouter = require('./routes/searchroutes');
 const { cookie } = require('request');
 
 //console.log(process.env);
@@ -49,6 +50,8 @@ var stateKey = 'spotify_auth_state';
 var app = express();
 
 app.use('/api/v1/spotify/library',libraryRouter);
+app.use('/api/v1/spotify/search',searchRouter);
+
 app.use(express.static(__dirname + '/authorize'))
    .use(cors())
    .use(cookieParser());
