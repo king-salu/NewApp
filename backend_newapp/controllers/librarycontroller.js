@@ -1,9 +1,10 @@
 var request = require('request');
 
 exports.new_release = (req,resp)=>{
-    //console.log(process.env);
+    console.log(req.params);
     //const access_tko = req.cookies ? req.cookies['access_tko'] : null;
-    const access_tko = req.body.access_token;
+    //const access_tko = req.body.access_token;
+    const access_tko = req.params.access_token;
     var options = {
         'url': 'https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V',
         'headers': {

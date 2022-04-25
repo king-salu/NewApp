@@ -51,7 +51,7 @@ var app = express();
 
 app.use('/api/v1/spotify/library',libraryRouter);
 app.use('/api/v1/spotify/search',searchRouter);
-
+app.use(express.json({extended: false}));
 app.use(express.static(__dirname + '/authorize'))
    .use(cors())
    .use(cookieParser());
