@@ -10,20 +10,32 @@ export default function Home(){
     async function getlogin() {
     const accesstoken = Cookies.get('access_tko');
     
+    let item ={
+                "access_token": accesstoken
+            }
+    let details2 = await fetch("http://localhost:8888/api/v1/spotify/token/", {
+             mode: 'no-cors',
+             method: 'POST',
+            headers: {
+                "Content-Type": 'application/json',
+                "Accept": 'application/json'
+            },
+            body: JSON.stringify(item)
+        });
    
-     let details = await fetch("http://localhost:8888/api/v1/spotify/library/"+accesstoken, {
+     /*let details = await fetch("http://localhost:8888/api/v1/spotify/library/", {
              mode: 'no-cors',
              method: 'GET',
             headers: {
                 "Content-Type": 'application/json',
                 "Accept": 'application/json'
             }
-        })
+        });*/
   
 
-    details =  await details.json();
+    //details =  await details.json();
     alert ("i am here");
-    console.log(details);
+    //console.log(details);
      
 
 }

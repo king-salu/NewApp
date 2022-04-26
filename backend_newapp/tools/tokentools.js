@@ -7,6 +7,7 @@ exports.cookie_code = cookie_code;
 
 exports.cur_token = (req)=>{
     var cur_tko = null
+    console.log(req)
     if(req.cookies){
         const cookie_res = JSON.parse(req.cookies[cookie_code]);
         cur_tko = cookie_res["keyset"];

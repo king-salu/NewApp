@@ -5,7 +5,12 @@ var tokentool = require('../tools/tokentools');
 const cookie_code = tokentool.cookie_code;
 
 exports.setup_accesstoken = (req,resp) =>{
-    //console.log(req.body);
+    console.log(req.body);
+    resp.status(201).json({
+        status: "entered access token"
+    });
+
+    return '';
     const access_token = req.body.access_token;
     //const user_id = req.body.id;
     var options = {
@@ -14,6 +19,7 @@ exports.setup_accesstoken = (req,resp) =>{
         json: true
     };
 
+    console.log(options);
     request.get(options, function(error, response, body) {
         if(!error){
             const user_id = body.id;
