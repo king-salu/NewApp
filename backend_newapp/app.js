@@ -24,13 +24,10 @@ const { cookie } = require('request');
 //console.log(process.env);
 const PORT = process.env.PORT;
 var client_id = process.env.CLIENT_ID; // Your client id
-//var client_id = '44cbd9a38b7a4752a44709e9f31bf055'; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
-//var client_secret = '2a98e5ceda44bb6a4b779a07b48ee0a'; // Your secret
 var redirect_uri2 = 'http://localhost:3000/home'; // Your redirect uri
-//var redirect_uri = process.env.REDIRECT_URL; // Your redirect uri
 var redirect_uri = `http://localhost:${PORT}/callback`; // Your redirect uri
-//var redirect_uri2 = process.env.REDIRECT_URL2; // Your redirect uri
+
 
 /**
  * Generates a random string containing numbers and letters
