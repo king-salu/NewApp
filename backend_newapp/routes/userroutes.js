@@ -1,10 +1,9 @@
 var express = require('express'); // Express web server framework
-
-const libraryController = require('../controllers/librarycontroller');
+var usercontroller = require('../controllers/usercontroller');
 const router = express.Router();
 
 router
 .route('/')
-.get(libraryController.new_release);
+.get(usercontroller.user_details);
 
 module.exports = router;

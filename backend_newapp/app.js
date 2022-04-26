@@ -15,8 +15,10 @@ var cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 dotenv.config({path:'./config.env'});
 
+const tokenRouter = require('./routes/tokenroutes');
 const libraryRouter = require('./routes/libraryroutes');
 const searchRouter = require('./routes/searchroutes');
+const userRouter = require('./routes/userroutes');
 const { cookie } = require('request');
 
 //console.log(process.env);
@@ -49,12 +51,15 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-app.use('/api/v1/spotify/library',libraryRouter);
-app.use('/api/v1/spotify/search',searchRouter);
-app.use(express.json({extended: false}));
-app.use(express.static(__dirname + '/authorize'))
+
+app.use(express.json())
+   .use(express.static(__dirname + '/authorize'))
    .use(cors())
-   .use(cookieParser());
+   .use(cookieParser())
+   .use('/api/v1/spotify/token',tokenRouter)
+   .use('/api/v1/spotify/library',libraryRouter)
+   .use('/api/v1/spotify/search',searchRouter)
+   .use('/api/v1/spotify/user',userRouter);
    //
 
 

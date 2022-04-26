@@ -1,24 +1,28 @@
 var request = require('request');
+var tokentool = require('../tools/tokentools');
+var datatool = require('../tools/datatools');
+var spotifyWebApi = require('spotify-web-api-node');
+
+spotifyEngine = new spotifyWebApi({
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET
+}); 
 
 exports.new_release = (req,resp)=>{
-    console.log(req.params);
-    //const access_tko = req.cookies ? req.cookies['access_tko'] : null;
-    //const access_tko = req.body.access_token;
-    const access_tko = req.params.access_token;
+    //console.log(req.params);
+    const access_token = tokentool.cur_token(req);
+    spotifyEngine.setAccessToken(access_token);
     var options = {
-        'url': 'https://api.spotify.com/v1/tracks/2TpxZ7JUBn3uw46aR7qd6V',
-        'headers': {
-            'Authorization': `Bearer ${access_tko}`
-            //'Authorization': 'Bearer BQAZNTLRzxTGxFH6mT7JSvSp3NsiVYNJEkBHe_hRvt8J8gMqLJ0fAOEMVNLVjnyT50LWbb1y0MM0_VHxx9aJ8koUXHhUlVuYTjBAqE_kESHB9rwsPNIo5sNIe9QazRoDnrOK_UN9DJ68iIMrKZ0MeA6F5Kfi9MTKTEzwwjcCc-j3zPYI0noy2g'
-          }
+        limit : 5, offset: 0, country: 'NG'
     }
-    console.log(options);
-    request.get(options, function (error, response) {
-        if (error) throw new Error(error);
-        console.log(response.body);
-
+    spotifyEngine.getNewReleases(options)
+    .then((data)=>{
+        const redata = datatool.spotify_music_rearray(data);
+        console.log(redata);
         resp.status(201).json({
-            data: JSON.parse(response.body)
+            details: redata
         });
+    },(err)=>{
+        console.log(err);
     });
 }
