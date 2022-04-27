@@ -4,7 +4,7 @@ const libraryController = require('../controllers/librarycontroller');
 const router = express.Router();
 
 router
-.route('/')
+.route('/:id')
 .get(libraryController.new_release);
 
 module.exports = router;

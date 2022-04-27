@@ -16,23 +16,32 @@ exports.setup_accesstoken = (req,resp) =>{
     };
 
     //console.log(options);
-    request.get(options, function(error, response, body) {
+    request.get(options, async function (error, response, body) {
         //console.log(body);
-        if(response.statusCode==200){
-            const newUser = new userModel.user_model({
-                id: body.id,
-                display_name: body.display_name,
-                email: body.email,
-                access_token,
-                country: body.country
+        //console.log(response);
+        //try{
+            if(response.statusCode==200){
+                var info = {
+                    id: body.id,
+                    display_name: body.display_name,
+                    email: body.email,
+                    access_token,
+                    country: body.country
+                }
+                const umodel = new userModel.user_model();
+                const newUser = await umodel.findOneAndUpdate({id: body.id},info,{new: true, upsert: true});
+                console.log(newUser);
+                //Save details
+            }
+            resp.status(response.statusCode).json({
+                details: body
             });
-
-            console.log(newUser);
-            //Save details
-        }
-        resp.status(response.statusCode).json({
-            details: body
-        });
+        // } catch(err){
+        //     resp.status(404).json({
+        //         status: 'failed',
+        //         message: err
+        //     });
+        // }
       });
 
 }
