@@ -12,6 +12,7 @@ var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config({path:'./config.env'});
 
@@ -28,6 +29,19 @@ var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri2 = 'http://localhost:3000/home'; // Your redirect uri
 var redirect_uri = `http://localhost:${PORT}/callback`; // Your redirect uri
 
+const DBconn = process.env.DATABASE.replace('<DATABASE_PASSWORD>',process.env.DATABASE_PASSWORD);
+
+mongoose
+.connect(DBconn,{
+//.connect(process.env.DATABASE_LOCAL,{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+})
+.then(con=>{
+    //console.log(con.connections);
+    console.log('DB connection successful');
+});
 
 /**
  * Generates a random string containing numbers and letters
@@ -50,6 +64,7 @@ var app = express();
 
 
 app.use(express.json())
+   .use(express.urlencoded({ extended: true }))
    .use(express.static(__dirname + '/authorize'))
    .use(cors())
    .use(cookieParser())
@@ -114,7 +129,7 @@ app.get('/callback', function(req, res) {
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        res.cookie('access_tko',access_token);
+        
         //console.log(process.env);
         var options = {
           url: 'https://api.spotify.com/v1/me',
@@ -124,16 +139,19 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
+          if(response.statusCode == 200){
+              // we can also pass the token to the browser to make requests from there
+              res.redirect(redirect_uri2+'/#&' +
+              //res.redirect('/#' +
+                querystring.stringify({
+                  u_id: body.id,
+                  access_token: access_token,
+                  refresh_token: refresh_token
+                }));
+          }
         });
 
-        // we can also pass the token to the browser to make requests from there
-        res.redirect(redirect_uri2+'/#' +
-        //res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+        
       } else {
         res.redirect('/#' +
           querystring.stringify({

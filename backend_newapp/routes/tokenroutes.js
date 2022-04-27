@@ -5,7 +5,10 @@ const router = express.Router();
 
 router
 .route('/')
-.get(tokencontroller.get_cur_token)
+.get(tokencontroller.get_cur_token);
+
+router
+.route('/:access_token')
 .post(tokencontroller.setup_accesstoken);
 
 module.exports = router;

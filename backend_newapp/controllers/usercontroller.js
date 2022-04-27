@@ -7,12 +7,12 @@ spotifyEngine = new spotifyWebApi({
 }); 
 
 exports.user_details = (req,resp) =>{
-    var access_token = tokentool.cur_token(req);
+    var access_token = tokentool.cur_token(req,resp);
     spotifyEngine.setAccessToken(access_token);
 
     spotifyEngine.getMe()
     .then(data=>{
-        console.log(data);
+        //console.log(data);
         resp.status(201).json({
             details: data
         })

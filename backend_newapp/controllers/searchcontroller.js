@@ -10,7 +10,7 @@ spotifyEngine = new spotifyWebApi({
 
 exports.search = (req,resp)=>{
     var keyword = req.params.keyword;
-    var access_token = tokentool.cur_token(req);
+    var access_token = tokentool.cur_token(req,resp);
     spotifyEngine.setAccessToken(access_token);
     spotifyEngine.searchTracks(`track:${keyword}`)
     .then((data)=>{

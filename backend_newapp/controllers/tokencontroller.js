@@ -1,17 +1,13 @@
 var request = require('request');
 var express = require('express');
 var tokentool = require('../tools/tokentools');
+var userModel = require('../models/userModel');
 
 const cookie_code = tokentool.cookie_code;
 
 exports.setup_accesstoken = (req,resp) =>{
-    console.log(req.body);
-    resp.status(201).json({
-        status: "entered access token"
-    });
-
-    return '';
-    const access_token = req.body.access_token;
+    //console.log(req);
+    const access_token = req.params.access_token;
     //const user_id = req.body.id;
     var options = {
         url: 'https://api.spotify.com/v1/me',
@@ -19,33 +15,31 @@ exports.setup_accesstoken = (req,resp) =>{
         json: true
     };
 
-    console.log(options);
+    //console.log(options);
     request.get(options, function(error, response, body) {
-        if(!error){
-            const user_id = body.id;
-            const val2bu = JSON.stringify({
-                current: user_id,
-                keyset: access_token
+        //console.log(body);
+        if(response.statusCode==200){
+            const newUser = new userModel.user_model({
+                id: body.id,
+                display_name: body.display_name,
+                email: body.email,
+                access_token,
+                country: body.country
             });
-            resp.cookie(cookie_code,val2bu);
 
-            resp.status(201).json({
-                status: 'success'
-            });
+            console.log(newUser);
+            //Save details
         }
-        else{
-            resp.status(400).json({
-                status: 'failed',
-                message: body
-            });
-        }
+        resp.status(response.statusCode).json({
+            details: body
+        });
       });
 
 }
 
 exports.get_cur_token = (req,resp) =>{
     //console.log(req);
-    var cur_token = tokentool.cur_token(req);
+    var cur_token = tokentool.cur_token(req,resp);
 
     resp.status(201).json({
         access: cur_token
