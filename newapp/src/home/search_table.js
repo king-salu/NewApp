@@ -3,26 +3,13 @@ import { getUserAccess } from '../functions/tools';
 import './index.css';
 import testimg from './large-gallery/gallery-9.jpg';
 
-export function SearchTab(keyword){
-    let [searchResults,setSearchResults] = useState([]);
-    alert(keyword);
-    async function getSearchResults(){
-        if(keyword.trim()!==''){
-            const userid = getUserAccess().current;
-            const searches = await fetch(`http://localhost:8888/api/v1/spotify/search/${userid}/${keyword}`,
-            {   method: 'GET',
-                headers: {
-                        "Content-Type": 'application/json'
-                    }
-            })
-            .then((Response)=>Response.json())
-            .then((ResponseData)=>{
-                return ResponseData;
-            });
+export function SearchTab(){
 
-            console.log(searches.details);
-        }
-    }
+   
+   
+  
+  
+    
 
     function rowCard(card){
         if (card){
@@ -47,15 +34,16 @@ export function SearchTab(keyword){
         return <></>;
     }
 
-    useEffect(() => {
-        getSearchResults(keyword);
-    }, []);
+    // useEffect(() => {
+    //     getSearchResults();
+    // }, []);
 
     return (
         <>
         <h2 class="entry-title">Search Results</h2>
+        
         <table width="100%">
-
+            
         </table>
         </>
     );
