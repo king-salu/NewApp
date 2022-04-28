@@ -22,3 +22,11 @@ const user_schema = new mongoose.Schema({
 });
 
 exports.user_model = mongoose.model('user',user_schema);
+
+exports.user_emq = () =>{
+    var emq = this.user_model.find();
+    emq.setOptions({lean: true});
+    emq.collection(this.user_model.collection);
+
+    return emq;
+}

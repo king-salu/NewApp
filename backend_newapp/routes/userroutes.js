@@ -3,7 +3,7 @@ var usercontroller = require('../controllers/usercontroller');
 const router = express.Router();
 
 router
-.route('/')
+.route('/:id')
 .get(usercontroller.user_details);
 
 module.exports = router;

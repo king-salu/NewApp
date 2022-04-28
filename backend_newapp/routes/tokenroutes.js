@@ -4,7 +4,7 @@ const tokencontroller = require('../controllers/tokencontroller');
 const router = express.Router();
 
 router
-.route('/')
+.route('/:id')
 .get(tokencontroller.get_cur_token);
 
 router

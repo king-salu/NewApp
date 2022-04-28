@@ -1,4 +1,5 @@
 var tokentool = require('../tools/tokentools');
+var datatool = require('../tools/datatools');
 var spotifyWebApi = require('spotify-web-api-node');
 
 spotifyEngine = new spotifyWebApi({
@@ -6,16 +7,18 @@ spotifyEngine = new spotifyWebApi({
     clientSecret: process.env.CLIENT_SECRET
 }); 
 
-exports.user_details = (req,resp) =>{
-    var access_token = tokentool.cur_token(req,resp);
+exports.user_details = async (req,resp) =>{
+    var access_token = await tokentool.cur_token(req,resp);
+    //console.log('access_token',access_token);
     spotifyEngine.setAccessToken(access_token);
 
     spotifyEngine.getMe()
     .then(data=>{
-        //console.log(data);
+        const redata = datatool.spotify_user_rearray(data);
+        console.log(redata);
         resp.status(201).json({
-            details: data
-        })
+            details: redata
+        });
     },
     (err)=>{
         console.log(err);

@@ -10,9 +10,10 @@ spotifyEngine = new spotifyWebApi({
     clientSecret: process.env.CLIENT_SECRET
 }); 
 
-exports.new_release = (req,resp)=>{
+exports.new_release = async (req,resp)=>{
     //console.log(req.params);
-    const access_token = tokentool.cur_token(req,resp);
+    const access_token = await tokentool.cur_token(req,resp);
+    //console.log('acesss',access_token);
     spotifyEngine.setAccessToken(access_token)
     
     var options = {
@@ -24,6 +25,7 @@ exports.new_release = (req,resp)=>{
         //console.log(redata);
         resp.status(201).json({
             details: redata
+            //details: data
         });
     },(err)=>{
         resp.status(400).json({

@@ -3,7 +3,7 @@ const searchcontroller = require('../controllers/searchcontroller');
 const router = express.Router();
 
 router
-.route('/:keyword')
+.route('/:id/:keyword')
 .get(searchcontroller.search);
 
 module.exports = router;

@@ -8,15 +8,18 @@ spotifyEngine = new spotifyWebApi({
     clientSecret: process.env.CLIENT_SECRET
 }); 
 
-exports.search = (req,resp)=>{
+exports.search = async (req,resp)=>{
     var keyword = req.params.keyword;
-    var access_token = tokentool.cur_token(req,resp);
+    var access_token = await tokentool.cur_token(req,resp);
+    console.log('access_token',access_token);
     spotifyEngine.setAccessToken(access_token);
     spotifyEngine.searchTracks(`track:${keyword}`)
     .then((data)=>{
+        //console.log(data);
         const redata = datatool.spotify_music_rearray(data);
         resp.status(201).json({
             details: redata
+            //details: data
         });
     }, (err)=>{
         console.log(err);

@@ -19,7 +19,7 @@ exports.setup_accesstoken = (req,resp) =>{
     request.get(options, async function (error, response, body) {
         //console.log(body);
         //console.log(response);
-        //try{
+        try{
             if(response.statusCode==200){
                 var info = {
                     id: body.id,
@@ -28,29 +28,38 @@ exports.setup_accesstoken = (req,resp) =>{
                     access_token,
                     country: body.country
                 }
-                const umodel = new userModel.user_model();
-                const newUser = await umodel.findOneAndUpdate({id: body.id},info,{new: true, upsert: true});
-                console.log(newUser);
+                
+
+                const newUser = await userModel.user_emq()
+                                               .where()
+                                               .findOneAndUpdate({id: body.id},info,{new: true, upsert: true});
+                //console.log(newUser);
                 //Save details
             }
             resp.status(response.statusCode).json({
                 details: body
             });
-        // } catch(err){
-        //     resp.status(404).json({
-        //         status: 'failed',
-        //         message: err
-        //     });
-        // }
+        } catch(err){
+            resp.status(404).json({
+                status: 'failed',
+                message: err
+            });
+        }
       });
 
 }
 
-exports.get_cur_token = (req,resp) =>{
+exports.get_cur_token = async (req,resp) =>{
     //console.log(req);
-    var cur_token = tokentool.cur_token(req,resp);
+    var cur_token = null;
+    const _id_ = req.params.id;
+    const useDetails = await userModel.user_model.where().findOne({id:_id_},'access_token');
+    //console.log(useDetails);
+    if(useDetails){
+        cur_token = useDetails.access_token;
+    }
 
-    resp.status(201).json({
+    resp.status(200).json({
         access: cur_token
     });
 }
