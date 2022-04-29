@@ -14,6 +14,6 @@ router
 router
 .route('/:id/item/:lib_id/type/:type')
 .put(libraryController.add2library)
-.delete(libraryController.add2library);
+.delete(libraryController.remove4rmlibrary);
 
 module.exports = router;

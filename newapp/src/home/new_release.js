@@ -1,6 +1,6 @@
 
 import React, {useState, useEffect, Suspense} from "react";
-import { getUserAccess, setUserAccess} from '../functions/tools';
+import { getUserAccess, setUserAccess, AddToLibrary} from '../functions/tools';
 import './index.css';
 import {rowCard} from './search_table';
 import testimg from './large-gallery/gallery-9.jpg';
@@ -66,17 +66,7 @@ export default function New_releases(){
        
     }
 
-    async function AddToLibrary(cardchain){
-        const userid = getUserAccess().current;
-        const feedback = await fetch(`http://localhost:8888/api/v1/spotify/library/${userid}/${cardchain}`,
-        {   method: 'PUT',
-            headers: {
-                    "Content-Type": 'application/json'
-                }
-        });
-
-        console.log(feedback);
-    }
+    
 
     function Newreleasecard(card){
         if(card){

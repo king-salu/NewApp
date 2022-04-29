@@ -46,3 +46,27 @@ export async function getUserInfo() {
 
      return user_details.details;
 }
+
+export async function AddToLibrary(cardchain){
+    const userid = getUserAccess().current;
+    const feedback = await fetch(`http://localhost:8888/api/v1/spotify/library/${userid}/${cardchain}`,
+    {   method: 'PUT',
+        headers: {
+                "Content-Type": 'application/json'
+            }
+    });
+
+    console.log(feedback);
+}
+
+export async function RemoveFromLibrary(cardchain){
+    const userid = getUserAccess().current;
+    const feedback = await fetch(`http://localhost:8888/api/v1/spotify/library/${userid}/${cardchain}`,
+    {   method: 'DELETE',
+        headers: {
+                "Content-Type": 'application/json'
+            }
+    });
+
+    console.log(feedback);
+}
