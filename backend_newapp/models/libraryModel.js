@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const library_schema = new mongoose.Schema({
+    user_id: {
+        type: String,
+        required: [true, "Library must belong to an account id"]
+    },
     name: {
         type: String,
         required: [true,"name can't be empty"]
@@ -21,3 +25,11 @@ const library_schema = new mongoose.Schema({
 
 
 exports.library_model = mongoose.model('library',library_schema);
+
+exports.library_emq = () =>{
+    var emq = this.library_model.find();
+    emq.setOptions({lean: true});
+    emq.collection(this.library_model.collection);
+
+    return emq;
+}

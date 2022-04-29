@@ -1,35 +1,36 @@
+exports.restructure = (element,key) => {
+    var _artists = [];
+    var _images = [];
+    if(element.artists) _artists = spotify_artist_rearray(element.artists);
+    if(element.album) _images = element.album.images;
+    if(element.images) _images = element.images;
+    var _object = {
+        name: element.name,
+        type : element.type,
+        id: element.id,
+        images: _images,
+        artists: _artists,
+        release_date: element.release_date,
+        total_tracks: element.total_tracks,
+        spotify_url: element.external_urls.spotify
+    }
+
+    return _object;
+}
 
 exports.spotify_music_rearray = (data)=>{
     var rearray = [];
-    let restructure = (element,key) => {
-        var _artists = [];
-        var _images = [];
-        if(element.artists) _artists = spotify_artist_rearray(element.artists);
-        if(element.album) _images = element.album.images;
-        if(element.images) _images = element.images;
-        var _object = {
-            name: element.name,
-            type : element.type,
-            id: element.id,
-            images: _images,
-            artists: _artists,
-            release_date: element.release_date,
-            total_tracks: element.total_tracks
-        }
-
-        return _object;
-    }
     //console.log(data);
     if(data.body.albums){
         data.body.albums.items.forEach((element,key) => {
-            const result = restructure(element,key);
+            const result = this.restructure(element,key);
             rearray.push(result);
         });
     }
 
     if (data.body.tracks){
         data.body.tracks.items.forEach((element,key) => {
-            const result = restructure(element,key);
+            const result = this.restructure(element,key);
             rearray.push(result);
         });
     }

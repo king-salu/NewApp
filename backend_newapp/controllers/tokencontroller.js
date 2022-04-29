@@ -6,7 +6,7 @@ var userModel = require('../models/userModel');
 const cookie_code = tokentool.cookie_code;
 
 exports.setup_accesstoken = (req,resp) =>{
-    //console.log(req);
+    //console.log(req.body);
     const access_token = req.params.access_token;
     //const user_id = req.body.id;
     var options = {

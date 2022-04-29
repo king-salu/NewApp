@@ -4,7 +4,16 @@ const libraryController = require('../controllers/librarycontroller');
 const router = express.Router();
 
 router
-.route('/:id')
+.route('/newrelease/:id')
 .get(libraryController.new_release);
+
+router
+.route('/:id')
+.get(libraryController.mylibrary);
+
+router
+.route('/:id/item/:lib_id/type/:type')
+.put(libraryController.add2library)
+.delete(libraryController.add2library);
 
 module.exports = router;

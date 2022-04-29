@@ -17,7 +17,8 @@ export async function setUserAccess(){
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
-            }
+            },
+            body:{ "en": "on at all"}
         });
 }
 
