@@ -20,6 +20,10 @@ const library_schema = new mongoose.Schema({
     },
     images: {
         type: Object
+    },
+    spotify_url: String,
+    artists: {
+        type: Object
     }
 });
 

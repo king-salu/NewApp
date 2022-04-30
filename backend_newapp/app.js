@@ -20,14 +20,17 @@ const tokenRouter = require('./routes/tokenroutes');
 const libraryRouter = require('./routes/libraryroutes');
 const searchRouter = require('./routes/searchroutes');
 const userRouter = require('./routes/userroutes');
+const playlistRouter = require('./routes/playlistroutes');
 const { cookie } = require('request');
 
 //console.log(process.env);
 const PORT = process.env.PORT;
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
-var redirect_uri2 = 'http://localhost:3000/home'; // Your redirect uri
-var redirect_uri = `http://localhost:${PORT}/callback`; // Your redirect uri
+//var redirect_uri2 = 'http://localhost:3000/home'; // Your redirect uri
+var redirect_uri2 = process.env.REDIRECT_URI2; // Your redirect uri
+//var redirect_uri = `http://localhost:${PORT}/callback`; // Your redirect uri
+var redirect_uri = process.env.REDIRECT_URI.replace('<PORT>',PORT);
 
 const DBconn = process.env.DATABASE.replace('<DATABASE_PASSWORD>',process.env.DATABASE_PASSWORD);
 
@@ -71,7 +74,8 @@ app.use(express.json())
    .use('/api/v1/spotify/token',tokenRouter)
    .use('/api/v1/spotify/library',libraryRouter)
    .use('/api/v1/spotify/search',searchRouter)
-   .use('/api/v1/spotify/user',userRouter);
+   .use('/api/v1/spotify/user',userRouter)
+   .use('/api/v1/spotify/playlist',playlistRouter);
    //
 
 

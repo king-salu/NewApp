@@ -1,6 +1,6 @@
 
 import './index.css';
-import testimg from './large-gallery/gallery-9.jpg';
+import testimg from '../images/default-user-profile-picture_hvoncb.png';
 import {AddToLibrary,RemoveFromLibrary} from '../functions/tools';
 
 
@@ -28,9 +28,9 @@ export function rowCard(card){
                 <td>{ctype}</td>
                 <td>{cartist}</td>
                 <td>
-                    <button class="button2" title="Add to my Library" value={cChainval} 
+                    <button class="site" title="Add to my Library" value={cChainval} 
                         onClick={ (e)=> AddToLibrary(e.target.value)}>+</button>
-                    <button class="button2" title="Remove from my Library" value={cChainval} 
+                    <button class="site" title="Remove from my Library" value={cChainval} 
                         onClick={ (e)=> RemoveFromLibrary(e.target.value)}>-</button>
                 </td>
             </tr>

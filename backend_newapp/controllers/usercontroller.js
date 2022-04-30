@@ -15,7 +15,7 @@ exports.user_details = async (req,resp) =>{
     spotifyEngine.getMe()
     .then(data=>{
         const redata = datatool.spotify_user_rearray(data);
-        console.log(redata);
+        //console.log(data);
         resp.status(201).json({
             details: redata
         });

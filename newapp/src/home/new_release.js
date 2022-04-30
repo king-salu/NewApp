@@ -1,19 +1,21 @@
 
 import React, {useState, useEffect, Suspense} from "react";
-import { getUserAccess, setUserAccess, AddToLibrary} from '../functions/tools';
+import { getUserAccess, setUserAccess, AddToLibrary, urls} from '../functions/tools';
 import './index.css';
 import {rowCard} from './search_table';
-import testimg from './large-gallery/gallery-9.jpg';
+import testimg from '../images/default-user-profile-picture_hvoncb.png';
 
 export default function New_releases(){
-    setUserAccess();
-     const [sKeyword,setsKeyword] = useState("");
+    
+    const [sKeyword,setsKeyword] = useState("");
     let [releaseRows,setReleaseRows] = useState([]);
     let [searchRows,setSearchRows] = useState([]);
 
     async function getNewRelease(){
         const userid = getUserAccess().current;
-        const releases = await fetch("http://localhost:8888/api/v1/spotify/library/newrelease/"+userid,
+        const address = urls('main_back');
+        
+        const releases = await fetch(`${address}/api/v1/spotify/library/newrelease/${userid}`,
         {   method: 'GET',
             headers: {
                     "Content-Type": 'application/json'
@@ -43,7 +45,8 @@ export default function New_releases(){
        
         if(_keyword.trim()!==''){
             const userid = getUserAccess().current;
-            const searches = await fetch(`http://localhost:8888/api/v1/spotify/search/${userid}/${_keyword}`,
+            const address = urls('main_back');
+            const searches = await fetch(`${address}/api/v1/spotify/search/${userid}/${_keyword}`,
             {   method: 'GET',
                 headers: {
                         "Content-Type": 'application/json'
@@ -66,8 +69,6 @@ export default function New_releases(){
        
     }
 
-    
-
     function Newreleasecard(card){
         if(card){
             var imgusd = (card.images.length>0)? card.images[0].url : testimg;
@@ -79,16 +80,19 @@ export default function New_releases(){
             var ctype   = card.type;
             var cChainval = `item/${cid}/type/${ctype}`;
             return(
-                <div class="filterable-items">
+                <div class="filterable-items" id={cChainval}>
                     <div class="filterable-item concert">
                         <figure class="cover">
-                            <a href={curl} target="_blank" rel="noopener noreferrer" placeholder={cname}><img src={imgusd} alt={cname}/></a></figure>
+                            <a href={curl} target="_blank" rel="noopener noreferrer" title={cname}><img src={imgusd} alt={cname}/></a>
+                        </figure>
                         <div class="detail">
                             <h3>{cname}</h3>
                             <span class="year">{cyear}</span><br/>
                             <span class="track">{ctracks} tracks</span><br/>
-                            <button class="button2" title="Add to my Library" value={cChainval} 
+                            <button class="site" title="Add to my Library" value={cChainval} 
                                 onClick={ (e)=> AddToLibrary(e.target.value)}>+</button>
+                            <button class="site" title="Remove From my Library" value={cChainval} 
+                            onClick={ (e)=> AddToLibrary(e.target.value)}>-</button>
                         </div>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ spotifyEngine = new spotifyWebApi({
 exports.search = async (req,resp)=>{
     var keyword = req.params.keyword;
     var access_token = await tokentool.cur_token(req,resp);
-    console.log('access_token',access_token);
+    //console.log('access_token',access_token);
     spotifyEngine.setAccessToken(access_token);
     spotifyEngine.searchTracks(`track:${keyword}`)
     .then((data)=>{
@@ -22,7 +22,7 @@ exports.search = async (req,resp)=>{
             //details: data
         });
     }, (err)=>{
-        console.log(err);
+        //console.log(err);
         resp.status(400).json({
             status: "failed",
             message: err
