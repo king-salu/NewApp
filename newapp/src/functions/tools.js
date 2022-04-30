@@ -14,7 +14,8 @@ export function urls(type = ''){
                 break;
 
             case  "main_back":
-                _url['main_back']  = 'http://localhost:8888';
+                //_url['main_back']  = 'http://localhost:8888';
+                _url['main_back']  = 'http://localhost:5000';
                 count_in = -10;
                 break;
             
@@ -64,7 +65,8 @@ export async function getUserInfo() {
     if(vCook!=null){
         const accesstoken = JSON.parse(vCook);
 
-        let user_details =  await fetch("http://localhost:8888/api/v1/spotify/user/"+accesstoken.current,
+        const address = urls('main_back');
+        let user_details =  await fetch(`${address}/api/v1/spotify/user/${accesstoken.current}`,
         {   method: 'GET',
             headers: {
                     "Content-Type": 'application/json'
@@ -86,7 +88,8 @@ export async function getUserInfo() {
 
 export async function AddToLibrary(cardchain){
     const userid = getUserAccess().current;
-    const feedback = await fetch(`http://localhost:8888/api/v1/spotify/library/${userid}/${cardchain}`,
+    const address = urls('main_back');
+    const feedback = await fetch(`${address}/api/v1/spotify/library/${userid}/${cardchain}`,
     {   method: 'PUT',
         headers: {
                 "Content-Type": 'application/json'
@@ -98,7 +101,8 @@ export async function AddToLibrary(cardchain){
 
 export async function RemoveFromLibrary(cardchain){
     const userid = getUserAccess().current;
-    const feedback = await fetch(`http://localhost:8888/api/v1/spotify/library/${userid}/${cardchain}`,
+    const address = urls('main_back');
+    const feedback = await fetch(`${address}/api/v1/spotify/library/${userid}/${cardchain}`,
     {   method: 'DELETE',
         headers: {
                 "Content-Type": 'application/json'
