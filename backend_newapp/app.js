@@ -75,7 +75,7 @@ app.use(express.json())
    .use('/api/v1/spotify/token',tokenRouter)
    .use('/api/v1/spotify/library',libraryRouter)
    .use('/api/v1/spotify/search',searchRouter)
-   .use('/api/v1/spotify/user',userRouter)
+   .use('/api/v1/spotify/user',userRouter) 
    .use('/api/v1/spotify/playlist',playlistRouter);
    //
 
